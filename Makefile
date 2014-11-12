@@ -28,14 +28,14 @@
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 ## THE POSSIBILITY OF SUCH DAMAGE.
 
-include config/version
+include $(VPATH)/config/version
 
 SHELL = /bin/sh
-SYSTEM ?= $(shell config/config.guess | cut -d - -f 3 | sed -e 's/[0-9\.]//g;')
-SYSTEM.SUPPORTED = $(shell test -f config/Makefile.$(SYSTEM) && echo 1)
+SYSTEM ?= $(shell $(VPATH)/config/config.guess | cut -d - -f 3 | sed -e 's/[0-9\.]//g;')
+SYSTEM.SUPPORTED = $(shell test -f $(VPATH)/config/Makefile.$(SYSTEM) && echo 1)
 
 ifeq ($(SYSTEM.SUPPORTED), 1)
-include config/Makefile.$(SYSTEM)
+include $(VPATH)/config/Makefile.$(SYSTEM)
 else
 $(error "Platform '$(SYSTEM)' not supported")
 endif
@@ -70,7 +70,7 @@ OPT = -g
 else
 OPT = $(POPT)
 endif
-INCLUDE = -Iinclude
+INCLUDE = -I$(VPATH)/include 
 CFLAGS = $(OPT) $(WARN) $(INCLUDE) $(CFLAGS.EXTRA)
 
 all debug: glew.lib glew.lib.mx glew.bin
